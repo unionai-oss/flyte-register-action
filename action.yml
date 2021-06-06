@@ -1,4 +1,4 @@
-name: 'flytectl-setup-action'
+name: 'flyte-register-action'
 description: >
    Register flyte workflow 
 inputs:
