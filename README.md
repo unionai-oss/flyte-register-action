@@ -1,9 +1,9 @@
-# flytectl-setup-action
+# flyte-setup-action
 Register [flyte](https://github.com/flyteorg/flyte) serialize workflow
 
 ## Usage
 
-Refer to the [action.yml](https://github.com/evalsocket/flytectl-register-action/blob/master/action.yml)
+Refer to the [action.yml](https://github.com/evalsocket/flyte-register-action/blob/master/action.yml)
 to see all of the action parameters.
 
 ```yaml
