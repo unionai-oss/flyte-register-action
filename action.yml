@@ -1,0 +1,22 @@
+name: 'flytectl-setup-action'
+description: >
+   Register flyte workflow 
+inputs:
+  version:
+    description: 'The version workflow.'
+    required: true
+  config:
+    description: 'Flytectl config for flyte cluster.'
+    required: true
+  proto:
+    description: 'Serialze proto path.'
+    required: true
+  project:
+    description: 'The project name for register.'
+    required: true
+  domain:
+    description: 'The domain name for register.'
+    required: true
+runs:
+  using: 'node12'
+  main: './dist/main.js'
