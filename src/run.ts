@@ -63,7 +63,7 @@ async function runPush(): Promise<null|Error> {
     const binaryPath = await io.which('flytectl', true);
     if (binaryPath === '') {
         return {
-            message: 'flytectl is not installed; please add the "evalsocket/flytectl-setup-action" step to your job found at https://github.com/evalsocket/flytectl-setup-action'
+            message: 'flytectl is not installed; please add the "unionai/flytectl-setup-action" step to your job found at https://github.com/unionai/flytectl-setup-action'
         };
     }
 
