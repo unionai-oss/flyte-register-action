@@ -3,7 +3,7 @@ Register [flyte](https://github.com/flyteorg/flyte) serialize workflow
 
 ## Usage
 
-Refer to the [action.yml](https://github.com/evalsocket/flyte-register-action/blob/master/action.yml)
+Refer to the [action.yml](https://github.com/unionai/flyte-register-action/blob/master/action.yml)
 to see all of the action parameters.
 
 ```yaml
@@ -19,10 +19,10 @@ steps:
       cd flytesnacks
       make start
   - name: Setup flytectl
-    uses: evalsocket/flytectl-setup-action@v0.0.1
+    uses: unionai/flytectl-setup-action@v0.0.1
     with:
       version: "0.1.8"
-  - uses: evalsocket/flyte-register-action@v0.0.1
+  - uses: unionai/flyte-register-action@v0.0.1
     with:
       version: '0.1.8' # The version of workflow
       proto: 'https://github.com/flyteorg/flytesnacks/releases/download/v0.2.89/flytesnacks-core.tgz'

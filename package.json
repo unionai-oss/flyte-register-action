@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/evalsocket/flyte-register-action.git"
+    "url": "git+https://github.com/unionai/flyte-register-action.git"
   },
-  "author": "Yuvraj",
+  "author": "Unionai",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/evalsocket/flyte-register-action/issues"
+    "url": "https://github.com/unionai/flyte-register-action/issues"
   },
-  "homepage": "https://github.com/evalsocket/flyte-register-action#readme",
+  "homepage": "https://github.com/unionai/flyte-register-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
