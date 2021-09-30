@@ -7,16 +7,37 @@ inputs:
     required: true
   config:
     description: 'Flytectl config for flyte cluster.'
-    required: true
+    required: false
+  flytesnacks:
+    description: 'Register flytesnacks example.'
+    required: false
   proto:
     description: 'Serialze proto path.'
-    required: true
+    required: false
   project:
     description: 'The project name for register.'
     required: true
-  domain:
-    description: 'The domain name for register.'
-    required: true
+  assumableIamRole:
+    description: 'Custom assumable iam auth role to register launch plans with.'
+    required: false
+  k8ServiceAccount:
+    description: 'Custom kubernetes service account auth role to register launch plans with.'
+    required: false
+  outputLocationPrefix:
+    description: 'Custom output location prefix for offloaded types (files/schemas).'
+    required: false
+  sourceUploadPath:
+    description: 'Location for source code in storage.'
+    required: false
+  archive:
+    description: 'Pass in archive file either an http link or local path.'
+    required: false
+  dryRun:
+    description: 'Execute command without making any modifications.'
+    required: false
+  continueOnError:
+    description: 'Continue on error when registering files.'
+    required: false
 runs:
   using: 'node12'
   main: './dist/main.js'
