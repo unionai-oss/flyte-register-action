@@ -26,11 +26,13 @@ export async function run(): Promise<void> {
 
 
 async function runPush(): Promise<null|Error> {
+
+    let command = "files"
+
+    let configFlag = ""
     const config = core.getInput('config');
-    if (config === '') {
-        return {
-            message: 'a flytectl config was not provided'
-        };
+    if (config.length > 0) {
+        configFlag = "--config " + config
     }
 
     const version = core.getInput('version');
@@ -53,11 +55,56 @@ async function runPush(): Promise<null|Error> {
             message: 'a domain name was not provided'
         };
     }
-    const proto = core.getInput('proto');
-    if (proto === '') {
-        return {
-            message: 'a serialze proto url was not provided. like https://github.com/flyteorg/flytesnacks/releases/download/v0.2.89/flytesnacks-core.tgz'
-        };
+    const flytesnacks = core.getInput('flytesnacks');
+    if (flytesnacks === 'true') {
+        command = "examples"
+        if (version === 'latest'){
+            return {
+                message: 'Use exact version of flytesnacks'
+            };
+        }
+    }
+
+    let protoPath = ""
+    const proto = core.getInput('k8ServiceAccount');
+    if (proto.length > 0 ) {
+        protoPath = proto
+    }
+
+    let k8ServiceAccountFlag = ""
+    const k8ServiceAccount = core.getInput('k8ServiceAccount');
+    if (k8ServiceAccount === '') {
+        k8ServiceAccountFlag = "--k8ServiceAccount "+ k8ServiceAccount
+    }
+
+    let outputLocationPrefixFlag = ""
+    const outputLocationPrefix = core.getInput('outputLocationPrefix');
+    if (outputLocationPrefix === '') {
+        outputLocationPrefixFlag = "--outputLocationPrefix " + outputLocationPrefix
+    }
+
+    let sourceUploadPathFlag = ""
+    let sourceUploadPath = core.getInput('sourceUploadPath');
+    if (sourceUploadPath.length > 0) {
+        sourceUploadPathFlag = "--sourceUploadPath " + sourceUploadPath
+    }
+
+    let archiveFlag = ""
+    const archive = core.getInput('archive');
+    if (archive === 'true') {
+        archiveFlag = "--archive"
+    }
+
+    let dryRunFlag = ""
+    let dryRun = core.getInput('dryRun');
+    if (dryRun.length > 0) {
+        dryRunFlag = "--dryRun"
+    }
+
+    let continueOnErrorFlag = ""
+    const continueOnError = core.getInput('continueOnError');
+    if (continueOnError === '') {
+        continueOnErrorFlag = "--continueOnError"
     }
 
     const binaryPath = await io.which('flytectl', true);
@@ -68,7 +115,7 @@ async function runPush(): Promise<null|Error> {
     }
 
     cp.execSync(
-        `${binaryPath} register file  ${proto} --archive -p ${project} -d ${domain}`
+        `${binaryPath} register ${command} ${protoPath} ${archive} -p ${project} -d ${domain} ${dryRunFlag} ${sourceUploadPathFlag} ${continueOnErrorFlag} ${archiveFlag} ${outputLocationPrefixFlag} ${k8ServiceAccountFlag} ${configFlag}`
     );
 
     return null;
