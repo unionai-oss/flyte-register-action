@@ -29,6 +29,5 @@ steps:
       project: 'flytesnacks'
       domain: 'development'
       archive: true
-
 ```
 
