@@ -1,13 +1,7 @@
 import * as core from '@actions/core';
-import * as github from '@actions/github'
 import * as io from '@actions/io';
-import * as fs from 'fs';
-import * as path from 'path';
 import cp from 'child_process';
 import { Error, isError } from './error';
-
-
-const runnerTempEnvKey = 'RUNNER_TEMP'
 
 export async function run(): Promise<void> {
     try {
@@ -35,7 +29,7 @@ async function runPush(): Promise<null|Error> {
         configFlag = "--config " + config
     }
 
-    const version = core.getInput('version');
+    let version = core.getInput('version');
     if (version === '') {
         return {
             message: 'a version for register was not provided'
@@ -55,20 +49,28 @@ async function runPush(): Promise<null|Error> {
             message: 'a domain name was not provided'
         };
     }
+
+    let protoPath = ""
+    const proto = core.getInput('proto');
+    if (proto.length > 0 ) {
+        protoPath = proto
+    }
+
+    let archiveFlag = ""
+    const archive = core.getInput('archive');
+    if (archive === 'true') {
+        archiveFlag = "--archive"
+    }
+
     const flytesnacks = core.getInput('flytesnacks');
     if (flytesnacks === 'true') {
         command = "examples"
         if (version === 'latest'){
-            return {
-                message: 'Use exact version of flytesnacks'
-            };
+            version = ""
+            // If user define the flytesnacks then it will override the protoPath path
+            protoPath = ""
+            archiveFlag = ""
         }
-    }
-
-    let protoPath = ""
-    const proto = core.getInput('k8ServiceAccount');
-    if (proto.length > 0 ) {
-        protoPath = proto
     }
 
     let k8ServiceAccountFlag = ""
@@ -87,12 +89,6 @@ async function runPush(): Promise<null|Error> {
     let sourceUploadPath = core.getInput('sourceUploadPath');
     if (sourceUploadPath.length > 0) {
         sourceUploadPathFlag = "--sourceUploadPath " + sourceUploadPath
-    }
-
-    let archiveFlag = ""
-    const archive = core.getInput('archive');
-    if (archive === 'true') {
-        archiveFlag = "--archive"
     }
 
     let dryRunFlag = ""
@@ -115,7 +111,7 @@ async function runPush(): Promise<null|Error> {
     }
 
     cp.execSync(
-        `${binaryPath} register ${command} ${protoPath} ${archive} -p ${project} -d ${domain} ${dryRunFlag} ${sourceUploadPathFlag} ${continueOnErrorFlag} ${archiveFlag} ${outputLocationPrefixFlag} ${k8ServiceAccountFlag} ${configFlag}`
+        `${binaryPath} register ${command} ${protoPath}  -p ${project} -d ${domain} ${dryRunFlag} ${sourceUploadPathFlag} ${continueOnErrorFlag} ${archiveFlag} ${outputLocationPrefixFlag} ${k8ServiceAccountFlag} ${configFlag}`
     );
 
     return null;

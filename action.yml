@@ -12,7 +12,7 @@ inputs:
     description: 'Register flytesnacks example.'
     required: false
   proto:
-    description: 'Serialze proto path.'
+    description: 'Serialze proto path. It can be flyte serialize workflow dir or a archive package'
     required: false
   project:
     description: 'The project name for register.'
