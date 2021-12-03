@@ -114,7 +114,7 @@ async function runPush(): Promise<null|Error> {
         };
     }
     const flytectlCommand = `${binaryPath} register ${command} ${protoPath}  -p ${project} -d ${domain} ${dryRunFlag} ${sourceUploadPathFlag} ${continueOnErrorFlag} ${archiveFlag} ${outputLocationPrefixFlag} ${k8ServiceAccountFlag} ${configFlag} ${versionFlag}`
-    core.info(`Running flytectl command ${flytectlCommand}`);
+    core.info(`flytectl command:  ${flytectlCommand}`);
     try {
         const o = cp.execSync(flytectlCommand, { encoding: "utf-8" });
         core.info(o);
