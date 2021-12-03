@@ -63,7 +63,7 @@ async function runPush(): Promise<null|Error> {
             message: 'a version for register was not provided'
         };
     }
-    versionFlag = "--version= "+ version
+    versionFlag = "--version "+ version
 
     const flytesnacks = core.getInput('flytesnacks');
     if (flytesnacks === 'true') {
@@ -95,10 +95,10 @@ async function runPush(): Promise<null|Error> {
         sourceUploadPathFlag = "--sourceUploadPath " + sourceUploadPath
     }
 
-    let dryRunFlag = "--dryRun"
+    let dryRunFlag = ""
     let dryRun = core.getInput('dryRun');
     if (dryRun.length > 0) {
-        dryRunFlag = ""
+        dryRunFlag = "--dryRun"
     }
 
     let continueOnErrorFlag = "--continueOnError"

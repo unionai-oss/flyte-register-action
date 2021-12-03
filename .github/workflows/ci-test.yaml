@@ -20,5 +20,5 @@ jobs:
         with:
           flytesnacks: true
           project: flytesnacks
-          version: v0.1.1
+          version: latest
           domain: development
