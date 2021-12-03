@@ -29,12 +29,6 @@ async function runPush(): Promise<null|Error> {
         configFlag = "--config " + config
     }
 
-    let version = core.getInput('version');
-    if (version === '') {
-        return {
-            message: 'a version for register was not provided'
-        };
-    }
 
     const project = core.getInput('project');
     if (project === '') {
@@ -62,26 +56,36 @@ async function runPush(): Promise<null|Error> {
         archiveFlag = "--archive"
     }
 
+    let versionFlag = ""
+    let version = core.getInput('version');
+    if (version === '') {
+        return {
+            message: 'a version for register was not provided'
+        };
+    }
+    versionFlag = "--version= "+ version
+
     const flytesnacks = core.getInput('flytesnacks');
     if (flytesnacks === 'true') {
         command = "examples"
+        // If user define the flytesnacks then it will override the protoPath path
+        protoPath = ""
+        archiveFlag = ""
         if (version === 'latest'){
-            version = ""
-            // If user define the flytesnacks then it will override the protoPath path
-            protoPath = ""
-            archiveFlag = ""
+            // In this case no need to pass version flytectl will use latest release
+            versionFlag = ""
         }
     }
 
     let k8ServiceAccountFlag = ""
     const k8ServiceAccount = core.getInput('k8ServiceAccount');
-    if (k8ServiceAccount === '') {
+    if (k8ServiceAccount.length > 0) {
         k8ServiceAccountFlag = "--k8ServiceAccount "+ k8ServiceAccount
     }
 
     let outputLocationPrefixFlag = ""
     const outputLocationPrefix = core.getInput('outputLocationPrefix');
-    if (outputLocationPrefix === '') {
+    if (outputLocationPrefix.length > 0) {
         outputLocationPrefixFlag = "--outputLocationPrefix " + outputLocationPrefix
     }
 
@@ -91,16 +95,16 @@ async function runPush(): Promise<null|Error> {
         sourceUploadPathFlag = "--sourceUploadPath " + sourceUploadPath
     }
 
-    let dryRunFlag = ""
+    let dryRunFlag = "--dryRun"
     let dryRun = core.getInput('dryRun');
     if (dryRun.length > 0) {
-        dryRunFlag = "--dryRun"
+        dryRunFlag = ""
     }
 
-    let continueOnErrorFlag = ""
+    let continueOnErrorFlag = "--continueOnError"
     const continueOnError = core.getInput('continueOnError');
     if (continueOnError === '') {
-        continueOnErrorFlag = "--continueOnError"
+        continueOnErrorFlag = ""
     }
 
     const binaryPath = await io.which('flytectl', true);
@@ -109,10 +113,15 @@ async function runPush(): Promise<null|Error> {
             message: 'flytectl is not installed; please add the "unionai/flytectl-setup-action" step to your job found at https://github.com/unionai/flytectl-setup-action'
         };
     }
-
-    cp.execSync(
-        `${binaryPath} register ${command} ${protoPath}  -p ${project} -d ${domain} ${dryRunFlag} ${sourceUploadPathFlag} ${continueOnErrorFlag} ${archiveFlag} ${outputLocationPrefixFlag} ${k8ServiceAccountFlag} ${configFlag}`
-    );
-
+    const flytectlCommand = `${binaryPath} register ${command} ${protoPath}  -p ${project} -d ${domain} ${dryRunFlag} ${sourceUploadPathFlag} ${continueOnErrorFlag} ${archiveFlag} ${outputLocationPrefixFlag} ${k8ServiceAccountFlag} ${configFlag} ${versionFlag}`
+    core.info(`Running flytectl command ${flytectlCommand}`);
+    try {
+        const o = cp.execSync(flytectlCommand, { encoding: "utf-8" });
+        core.info(o);
+    } catch(e) {
+        return {
+            message: e
+        };
+    }
     return null;
 }

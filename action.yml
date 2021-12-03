@@ -17,6 +17,9 @@ inputs:
   project:
     description: 'The project name for register.'
     required: true
+  domain:
+    description: 'The domain name for register.'
+    required: true
   assumableIamRole:
     description: 'Custom assumable iam auth role to register launch plans with.'
     required: false
