@@ -110,7 +110,7 @@ async function runPush(): Promise<null|Error> {
     const binaryPath = await io.which('flytectl', true);
     if (binaryPath === '') {
         return {
-            message: 'flytectl is not installed; please add the "unionai/flytectl-setup-action" step to your job found at https://github.com/unionai/flytectl-setup-action'
+            message: 'flytectl is not installed; please add the "unionai-oss/flytectl-setup-action" step to your job found at https://github.com/unionai-oss/flytectl-setup-action'
         };
     }
     const flytectlCommand = `${binaryPath} register ${command} ${protoPath}  -p ${project} -d ${domain} ${dryRunFlag} ${sourceUploadPathFlag} ${continueOnErrorFlag} ${archiveFlag} ${outputLocationPrefixFlag} ${k8ServiceAccountFlag} ${configFlag} ${versionFlag}`
