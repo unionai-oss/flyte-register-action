@@ -1,4 +1,4 @@
-# flyte-setup-action
+# flyte-register-action
 Register [flyte](https://github.com/flyteorg/flyte) serialize workflow
 
 ## Usage
