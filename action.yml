@@ -42,5 +42,5 @@ inputs:
     description: 'Continue on error when registering files.'
     required: false
 runs:
-  using: 'node12'
+  using: 'node20'
   main: './dist/main.js'
