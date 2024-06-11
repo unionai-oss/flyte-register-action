@@ -14,8 +14,7 @@ jobs:
       - uses: unionai/flytectl-setup-action@master
       - name: Create Flyte sandbox cluster
         run: | 
-           flytectl sandbox start
-           flytectl config init
+           flytectl demo start
       - uses: ./ # Run the local version of the action.
         with:
           flytesnacks: true
