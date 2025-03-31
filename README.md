@@ -8,7 +8,7 @@ to see all of the action parameters.
 
 ```yaml
 steps:
-  - uses: actions/checkout@v2
+  - uses: actions/checkout@v4
   - name: Setup flytectl config
     run: |
       mkdir -p ~/.flyte
@@ -19,10 +19,10 @@ steps:
       cd flytesnacks
       make start
   - name: Setup flytectl
-    uses: unionai/flytectl-setup-action@v0.0.1
+    uses: unionai-oss/flytectl-setup-action@v0.0.3
     with:
       version: "0.1.8"
-  - uses: unionai/flyte-register-action@v0.0.1
+  - uses: unionai-oss/flyte-register-action@v0.0.3
     with:
       version: '0.1.8' # The version of workflow
       proto: 'https://github.com/flyteorg/flytesnacks/releases/download/v0.2.89/flytesnacks-core.tgz'
